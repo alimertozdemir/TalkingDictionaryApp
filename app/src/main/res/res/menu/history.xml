@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Dictionary" >
+    <item android:id="@+id/clean_history"
+        android:title="@string/clean_history"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/about"
+        android:title="@string/about"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+</menu>

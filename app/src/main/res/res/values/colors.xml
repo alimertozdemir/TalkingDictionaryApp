@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="apptheme_primary">#009688</color>
+    <color name="apptheme_primary_dark">#673AB7</color>
+    <color name="deep_purple">#512DA8</color>
+    <color name="apptheme_accent">@android:color/white</color>
+    <color name="gray">#e0e0e0</color>
+    <color name="white">#ffffff</color>
+    <color name="button_color">#E040FB</color>
+    <color name="dark_indigo">#1a237e</color>
+    <color name="dark_pink">#AD1457</color>
+    <color name="cyan">#006064</color>
+
+    <color name="gradient_start">#50000000</color>
+    <color name="gradient_light_start">#30000000</color>
+    <color name="listview_selected_row_bg_color_1">#dedede</color>
+    <color name="listview_selected_row_bg_color_2">#ffffff</color>
+
+    <integer-array name="mycolors">
+        <item>@color/pocket_color_1</item>
+        <item>@color/pocket_color_2</item>
+        <item>@color/pocket_color_3</item>
+        <item>@color/pocket_color_4</item>
+    </integer-array>
+
+    <color name="pocket_color_1">#6a1b9a</color>
+    <color name="pocket_color_2">#ad1457</color>
+    <color name="pocket_color_3">#c41411</color>
+    <color name="pocket_color_4">#7e57c2</color>
+
+</resources>

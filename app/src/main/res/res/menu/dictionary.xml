@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Dictionary">
+
+    <item
+        android:id="@+id/search_history"
+        android:orderInCategory="100"
+        android:title="@string/history" />
+
+
+    <item
+        android:id="@+id/menu_item_share"
+        android:icon="@null"
+        android:actionProviderClass="android.widget.ShareActionProvider"
+        android:orderInCategory="100"
+        android:title="Share" />
+
+    <item
+        android:id="@+id/settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings" />
+
+    <item
+        android:id="@+id/about"
+        android:orderInCategory="100"
+        android:title="@string/about" />
+
+
+</menu>
