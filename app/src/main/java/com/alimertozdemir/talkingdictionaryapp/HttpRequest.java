@@ -1,5 +1,6 @@
 package com.alimertozdemir.talkingdictionaryapp;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ public class HttpRequest {
 
     Context myActivity;
     HttpRequestCallback httpCallback;
+    ProgressBar progressBar;
 
     public HttpRequest(Context activity){
         myActivity = activity;
@@ -31,17 +33,17 @@ public class HttpRequest {
     public void makeHttpPostWithVolley(String baseUrl, final Map<String, String> hmParams, final String operName, boolean isProgressDialogEnabled){
         RequestQueue queue = Volley.newRequestQueue(myActivity);
 
-        ProgressBar progressBar = new ProgressBar(myActivity, null, android.R.attr.progressBarStyleSmall);
+        progressBar = new ProgressBar(myActivity, null, android.R.attr.progressBarStyleSmall);
         progressBar.setVisibility(View.VISIBLE);
 
-       // final ProgressDialog progressDialog = new ProgressDialog(myActivity);
-        //progressDialog.setCancelable(false);
+        final ProgressDialog progressDialog = new ProgressDialog(myActivity);
+        progressDialog.setCancelable(false);
 
-        //if (isProgressDialogEnabled == true){
-         //   progressDialog.show();
-        //}
+        if (isProgressDialogEnabled == true){
+            progressDialog.show();
+        }
 
-        //progressDialog.setContentView(R.layout.progress_dialog_layout);
+        progressDialog.setContentView(R.layout.progress_dialog_layout);
 
         StringRequest getRequest = new StringRequest(Request.Method.POST, baseUrl,
                 new Response.Listener<String>()
@@ -51,7 +53,7 @@ public class HttpRequest {
                         Log.d("Response >>> ", response.toString());
                         httpCallback = (HttpRequestCallback) myActivity;
                         httpCallback.callback(response, operName);
-                       // progressDialog.hide();
+                        progressDialog.hide();
 
                     }
                 },
@@ -61,7 +63,7 @@ public class HttpRequest {
                     public void onErrorResponse(VolleyError error) {
                         AppUtils.showToast(myActivity, error.toString());
                         Log.d("Error.Response", error.toString());
-                        //progressDialog.hide();
+                        progressDialog.hide();
                     }
                 }
         ){
