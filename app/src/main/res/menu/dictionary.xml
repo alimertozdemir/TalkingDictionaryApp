@@ -30,12 +30,6 @@
                 app:showAsAction="never"
                 android:title="@string/action_settings"/>
 
-            <item
-                android:id="@+id/about"
-                app:showAsAction="never"
-                android:orderInCategory="100"
-                android:title="@string/about"/>
-
         </menu>
 
     </item>

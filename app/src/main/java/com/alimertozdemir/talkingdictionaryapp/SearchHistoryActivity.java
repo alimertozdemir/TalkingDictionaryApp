@@ -75,9 +75,7 @@ public class SearchHistoryActivity extends Activity {
             populateListView();
             return true;
         }
-        if (id == R.id.about) {
-            // Will be completed soon.
-        }
+
         return super.onOptionsItemSelected(item);
     }
 

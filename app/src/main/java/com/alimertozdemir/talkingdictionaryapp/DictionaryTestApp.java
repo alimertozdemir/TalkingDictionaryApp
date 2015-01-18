@@ -390,9 +390,6 @@ public class DictionaryTestApp extends Activity implements OnClickListener, OnIt
             AppUtils.gotoActivity(DictionaryTestApp.this, SettingsActivity.class, null, false);
             return true;
         }
-        if (id == R.id.about) {
-            // Will be completed soon.
-        }
 
         return super.onOptionsItemSelected(item);
     }
