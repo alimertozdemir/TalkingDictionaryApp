@@ -15,7 +15,7 @@
                     <padding android:bottom="5dp"/>
                     <gradient
                         android:startColor="#c2185b"
-                        android:endColor="#880e4f"
+                        android:endColor="#c2185b"
                         android:angle="270" />
                     <corners
                         android:radius="2dp"/>
@@ -44,7 +44,7 @@
                     <padding android:bottom="5dp"/>
                     <gradient
                         android:endColor="#e91e63"
-                        android:startColor="#c2185b"
+                        android:startColor="#e91e63"
                         android:angle="270" />
                     <corners
                         android:radius="2dp"/>

@@ -5,15 +5,18 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#e8eaf6"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/tools">
 
-    <!--android.support.v7.widget.Toolbar
+    <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:theme="@style/AppTheme"
-        android:background="@color/cyan"/-->
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:theme="@style/AppTheme" />
+
 
     <ScrollView
         android:id="@+id/svDictionary"

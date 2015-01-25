@@ -1,12 +1,13 @@
 
 package com.alimertozdemir.talkingdictionaryapp;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -47,7 +48,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class DictionaryTestApp extends Activity implements OnClickListener, OnItemSelectedListener,
+public class DictionaryTestApp extends ActionBarActivity implements OnClickListener, OnItemSelectedListener,
         View.OnTouchListener,
         HttpRequestCallback, TextToSpeech.OnInitListener {
 
@@ -89,6 +90,11 @@ public class DictionaryTestApp extends Activity implements OnClickListener, OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dictionary);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setLogo(R.drawable.ic_launcher);
+        setSupportActionBar(toolbar);
 
         tts = new TextToSpeech(this, this);
 
@@ -366,7 +372,7 @@ public class DictionaryTestApp extends Activity implements OnClickListener, OnIt
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dictionary, menu);
         MenuItem item = menu.findItem(R.id.menu_item_share);
-        myShareActionProvider = (ShareActionProvider) item.getActionProvider();
+        //myShareActionProvider = (ShareActionProvider) item.getActionProvider();
         setShareIntent(translatedText);
         return super.onCreateOptionsMenu(menu);
     }
@@ -404,7 +410,7 @@ public class DictionaryTestApp extends Activity implements OnClickListener, OnIt
                 + "\n"
                 + (Html.fromHtml("<b>" + "Translated via Talking Dictionary." + "</b>")));
 
-        myShareActionProvider.setShareIntent(intent);
+        //myShareActionProvider.setShareIntent(intent);
 
     }
 

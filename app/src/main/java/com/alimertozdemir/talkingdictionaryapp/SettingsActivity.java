@@ -1,6 +1,5 @@
 package com.alimertozdemir.talkingdictionaryapp;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.CompoundButton;
@@ -18,9 +17,6 @@ public class SettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Switch readSwitch = (Switch) findViewById(R.id.switch1);
         readSwitch.setTextOn("YES");
