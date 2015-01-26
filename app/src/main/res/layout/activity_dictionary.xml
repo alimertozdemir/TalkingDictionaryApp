@@ -6,6 +6,7 @@
     android:layout_height="fill_parent"
     android:background="#e8eaf6"
     android:orientation="vertical"
+    android:actionProviderClass="android.support.v7.widget.ShareActionProvider"
     xmlns:app="http://schemas.android.com/tools">
 
     <android.support.v7.widget.Toolbar
@@ -15,146 +16,161 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:theme="@style/AppTheme" />
+        android:foreground="?android:attr/windowContentOverlay"
+        app:popupTheme="@style/MyTheme.Popup"
+        app:theme="@style/AppTheme"/>
 
-
-    <ScrollView
-        android:id="@+id/svDictionary"
+    <FrameLayout
+        android:id="@+id/flToolbarShadow"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_height="fill_parent">
 
-        <LinearLayout
-            android:id="@+id/llMainLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <ScrollView
+            android:id="@+id/svDictionary"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
             <LinearLayout
+                android:id="@+id/llMainLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin">
+                android:orientation="vertical">
 
-
-                <EditText
-                    android:id="@+id/etInput"
-                    style="@style/EditTextStyle"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:alpha="10"
-                    android:hint="Touch the microphone to speak"
-                    android:maxLines="4"
-                    android:minHeight="140dp"
-                    android:scrollbars="vertical"
-                    android:shadowColor="@android:color/darker_gray"
-                    android:shadowRadius="2"/>
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin">
 
 
-                <LinearLayout
-                    android:id="@+id/llSpinners"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginTop="4dp"
-                    android:orientation="horizontal">
-
-                    <Spinner
-                        android:id="@+id/languageFrom"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-                    <View
-                        android:layout_width="20dp"
-                        android:layout_height="wrap_content"/>
-
-                    <Spinner
-                        android:id="@+id/languageTo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="4dp"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/btnTranslate"
-                        android:layout_width="fill_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginLeft="52dp"
-                        android:layout_marginRight="52dp"
-                        android:background="@drawable/button_selector"
-                        android:text="TRANSLATE"
-                        android:textColor="@android:color/white"
-                        android:textSize="18dp"
-                        android:textStyle="bold"
-                        android:theme="@android:style/Theme.Translucent"/>
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="200dp">
-
-                    <TextView
-                        android:id="@+id/tvOutput"
+                    <EditText
+                        android:id="@+id/etInput"
                         style="@style/EditTextStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_height="match_parent"
                         android:alpha="10"
+                        android:hint="Touch the microphone to speak"
                         android:maxLines="4"
                         android:minHeight="140dp"
                         android:scrollbars="vertical"
-                        android:text="@null"/>
-
-                    <ImageButton
-                        android:id="@+id/ibMicWhite"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="20dp"
-                        android:background="@drawable/elipse"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/ic_microphone_white_24dp"
-                        android:visibility="gone"/>
+                        android:shadowColor="@android:color/darker_gray"
+                        android:shadowRadius="2"/>
 
 
-                    <ImageButton
-                        android:id="@+id/ibMicRed"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="20dp"
-                        android:background="@drawable/elipse"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/ic_microphone_white_24dp"
-                        android:visibility="gone"/>
-                </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/llSpinners"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/languageFrom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"/>
+
+                        <Spinner
+                            android:id="@+id/languageTo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
 
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btnTranslate"
+                            android:layout_width="fill_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginLeft="52dp"
+                            android:layout_marginRight="52dp"
+                            android:background="@drawable/button_selector"
+                            android:text="TRANSLATE"
+                            android:textColor="@android:color/white"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            android:theme="@android:style/Theme.Translucent"/>
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:id="@+id/tvOutput"
+                            style="@style/EditTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:alpha="10"
+                            android:maxLines="4"
+                            android:minHeight="140dp"
+                            android:scrollbars="vertical"
+                            android:text="@null"/>
+
+                        <ImageButton
+                            android:id="@+id/ibMicWhite"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/elipse"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_microphone_white_24dp"
+                            android:visibility="gone"/>
+
+
+                        <ImageButton
+                            android:id="@+id/ibMicRed"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/elipse"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_microphone_white_24dp"
+                            android:visibility="gone"/>
+                    </RelativeLayout>
+
+
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/actionbar_shadow"/>
+
+    </FrameLayout>
+
 
     <RelativeLayout
+        android:id="@+id/rlAdView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/svDictionary">
+        android:layout_alignBottom="@id/flToolbarShadow">
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/adMob"

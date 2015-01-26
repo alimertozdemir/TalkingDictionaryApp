@@ -8,10 +8,11 @@
         <item name="colorPrimaryDark">@color/apptheme_primary_dark</item>
         <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:popupMenuStyle">@style/MyTheme.Popup</item>
+        <!--item name="android:popupMenuStyle">@style/MyTheme.Popup</item-->
         <item name="actionModeStyle">@style/AppTheme.ActionMode</item>
         <item name="android:spinnerStyle">@style/AppTheme_Spinner</item>
         <item name="android:actionModeCloseDrawable">@drawable/ic_drawer</item>
+        <!--item name="android:windowContentOverlay">@drawable/actionbar_shadow</item-->
         <item name="android:preferenceCategoryStyle">@style/AppTheme.PreferenceCategory</item>
         <item name="cpbStyle">@style/CircularProgressBar</item>
     </style>

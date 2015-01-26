@@ -1,8 +1,10 @@
 
 package com.alimertozdemir.talkingdictionaryapp;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +20,7 @@ import com.alimertozdemir.talkingdictionaryapp.utils.SharedPreference;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class SearchHistoryActivity extends Activity {
+public class SearchHistoryActivity extends ActionBarActivity {
     HashMap<String, Serializable> postIntentData = new HashMap<String, Serializable>();
     SharedPreference myPrefs = new SharedPreference();
     ListView listView;
@@ -31,6 +33,20 @@ public class SearchHistoryActivity extends Activity {
 
 //        ActionBar actionBar = getActionBar();
 //        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setNavigationIcon(R.drawable.ic_ab_up_compat);
+        setSupportActionBar(toolbar);
+
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavUtils.navigateUpFromSameTask(SearchHistoryActivity.this);
+            }
+        });
+
 
         listView = (ListView) findViewById(R.id.lvSearchHistory);
         populateListView();

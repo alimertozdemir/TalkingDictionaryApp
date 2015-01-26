@@ -4,17 +4,7 @@
       tools:context=".Dictionary">
 
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:icon="@drawable/ic_ab_overflow_compat"
-        android:orderInCategory="100">
-
-        <menu>
-            <item
-                android:id="@+id/clean_history"
-                android:title="@string/clean_history"
-                android:orderInCategory="100"/>
-
-        </menu>
-    </item>
+        android:id="@+id/clean_history"
+        android:title="@string/clean_history"
+        android:orderInCategory="100"/>
 </menu>

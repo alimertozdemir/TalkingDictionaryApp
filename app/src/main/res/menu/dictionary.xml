@@ -12,7 +12,7 @@
     <item
         android:id="@+id/menu_item_share"
         android:icon="@null"
-        android:actionProviderClass="android.widget.ShareActionProvider"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:orderInCategory="100"
         app:showAsAction="never"
         android:title="Share"/>

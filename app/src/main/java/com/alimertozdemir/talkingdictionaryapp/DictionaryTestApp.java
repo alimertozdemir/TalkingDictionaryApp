@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
@@ -25,7 +27,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ShareActionProvider;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -362,7 +363,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         // Add translatedText to intent in order to send text to speech
         // input
         setShareIntent(outputText);
-        //setShareIntent(outputText.substring(0, outputText.indexOf(" ") -1));
+        setShareIntent(outputText.substring(0, outputText.indexOf(" ") -1));
         Locale selectedLocale = new Locale(hmLanguages.get(item));
         speakOut(speachText, selectedLocale); // Text to Speech
     }
@@ -372,7 +373,8 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dictionary, menu);
         MenuItem item = menu.findItem(R.id.menu_item_share);
-        //myShareActionProvider = (ShareActionProvider) item.getActionProvider();
+        myShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        if (!"".equals(translatedText))
         setShareIntent(translatedText);
         return super.onCreateOptionsMenu(menu);
     }
@@ -410,7 +412,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
                 + "\n"
                 + (Html.fromHtml("<b>" + "Translated via Talking Dictionary." + "</b>")));
 
-        //myShareActionProvider.setShareIntent(intent);
+        myShareActionProvider.setShareIntent(intent);
 
     }
 

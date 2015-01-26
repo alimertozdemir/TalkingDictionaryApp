@@ -1,14 +1,15 @@
 package com.alimertozdemir.talkingdictionaryapp;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.alimertozdemir.talkingdictionaryapp.utils.SharedPreference;
 
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends ActionBarActivity {
 
     SharedPreference readTranslatedTextPref = new SharedPreference();
     private boolean isButtonChecked = true;
@@ -17,6 +18,11 @@ public class SettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setNavigationIcon(R.drawable.ic_ab_up_compat);
+        setSupportActionBar(toolbar);
 
         Switch readSwitch = (Switch) findViewById(R.id.switch1);
         readSwitch.setTextOn("YES");
