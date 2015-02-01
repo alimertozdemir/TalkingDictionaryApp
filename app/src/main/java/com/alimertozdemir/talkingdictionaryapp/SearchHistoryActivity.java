@@ -1,8 +1,8 @@
 
 package com.alimertozdemir.talkingdictionaryapp;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alimertozdemir.talkingdictionaryapp.adapter.SearchHistoryAdapter;
-import com.alimertozdemir.talkingdictionaryapp.utils.AppUtils;
 import com.alimertozdemir.talkingdictionaryapp.utils.SharedPreference;
 
 import java.io.Serializable;
@@ -43,7 +42,8 @@ public class SearchHistoryActivity extends ActionBarActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavUtils.navigateUpFromSameTask(SearchHistoryActivity.this);
+                //NavUtils.navigateUpFromSameTask(SearchHistoryActivity.this);
+                finish();
             }
         });
 
@@ -54,12 +54,14 @@ public class SearchHistoryActivity extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                postIntentData.put("SearchedHistoryItem",
-                        myPrefs.getHistories("Search_History", SearchHistoryActivity.this).get(i));
+                //postIntentData.put("SearchedHistoryItem", myPrefs.getHistories("Search_History", SearchHistoryActivity.this).get(i));
                 Log.d("HISTORY ITEM SELECTED : ", myPrefs.getHistories("Search_History", SearchHistoryActivity.this)
                         .get(i));
-                AppUtils.gotoActivity(SearchHistoryActivity.this,
-                        DictionaryTestApp.class, postIntentData, true);
+                Intent intent = new Intent();
+                intent.putExtra("SearchedHistoryItem", myPrefs.getHistories("Search_History", SearchHistoryActivity.this).get(i));
+                setResult(RESULT_OK, intent);
+                finish();
+                //AppUtils.gotoActivity(SearchHistoryActivity.this, DictionaryTestApp.class, postIntentData, true);
             }
         });
 

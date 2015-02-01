@@ -3,6 +3,7 @@ package com.alimertozdemir.talkingdictionaryapp;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -23,6 +24,14 @@ public class SettingsActivity extends ActionBarActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setNavigationIcon(R.drawable.ic_ab_up_compat);
         setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         Switch readSwitch = (Switch) findViewById(R.id.switch1);
         readSwitch.setTextOn("YES");

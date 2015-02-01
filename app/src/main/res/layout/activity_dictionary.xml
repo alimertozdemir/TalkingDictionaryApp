@@ -13,7 +13,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:foreground="?android:attr/windowContentOverlay"
@@ -129,9 +129,8 @@
 
                         <ImageButton
                             android:id="@+id/ibMicWhite"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_alignParentBottom="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_margin="20dp"
                             android:background="@drawable/elipse"
@@ -142,9 +141,8 @@
 
                         <ImageButton
                             android:id="@+id/ibMicRed"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_alignParentBottom="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_margin="20dp"
                             android:background="@drawable/elipse"

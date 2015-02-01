@@ -3,6 +3,7 @@ package com.alimertozdemir.talkingdictionaryapp;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -26,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -94,7 +96,26 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        toolbar.setLogo(R.drawable.ic_launcher);
+        //toolbar.setLogo(R.drawable.ic_launcher);
+        //setSupportActionBar(toolbar);
+
+        Drawable logo = getResources().getDrawable(R.drawable.ic_launcher);
+        toolbar.setLogo(logo);
+
+        for (int i = 0; i < toolbar.getChildCount(); i++) {
+            View child = toolbar.getChildAt(i);
+            if (child != null)
+                if (child.getClass() == ImageView.class) {
+                    ImageView iv2 = (ImageView) child;
+                    if ( iv2.getDrawable() == logo ) {
+                        iv2.setAdjustViewBounds(true);
+                        int padding = (int) (6 * getResources().getDisplayMetrics().density);
+                        iv2.setPadding(-10, padding, padding, padding);
+
+                    }
+                }
+        }
+
         setSupportActionBar(toolbar);
 
         tts = new TextToSpeech(this, this);
@@ -126,7 +147,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
                 // test mode on DEVICE (this example code must be replaced with
                 // your device uniquq ID)
                 // .addTestDevice("2A10FF0C45ED8D55276EC0A8F57F8B9A") // Galaxy S2
-                .addTestDevice("AEF679F3204F75A99083554903D8B1E0") // Note 3
+                //.addTestDevice("AEF679F3204F75A99083554903D8B1E0") // Note 3
                 .build();
         adView.loadAd(adRequest);
 
@@ -161,6 +182,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout,
                 languages);
+
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFrom.setAdapter(dataAdapter);
         spinnerTo.setAdapter(dataAdapter);
@@ -177,9 +199,6 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         hmLanguages.put("Spanish", "es");
         hmLanguages.put("Italy", "it");
         hmLanguages.put("Turkish", "tr");
-
-        // supportedLangs = new ArrayList<String>();
-        // supportedLangs.addAll(hmLanguages.values());
 
         spinnerFrom.setOnItemSelectedListener(this);
         spinnerTo.setOnItemSelectedListener(this);
@@ -274,17 +293,6 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         }
     }
 
-    /*
-     * public void detectSingleWordLanguageRequest(String text) {
-     * isYandexAPIDetect = false; params.put("q", text); params.put("key",
-     * detectLangAPIKey); if
-     * (!AppUtils.checkNetworkConnection(DictionaryTestApp.this)) {
-     * AppUtils.showToast(DictionaryTestApp.this,
-     * "Check your internet connection"); } else {
-     * httpRequest.makeHttpPostWithVolley(singleWordDetectURL, params, false); }
-     * }
-     */
-
     public void translateRequest(String langCodeFrom, String langCodeTo) {
         String TAG = "TranslateRequest";
         params.put("key", translateAPIKey);
@@ -353,7 +361,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         String speachText = "";
         for (int i = 0; i < dictionary.getTr().size(); i++) {
             outputText = outputText + dictionary.getTr().get(i).toString() + "," + "<br>";
-            speachText = speachText + dictionary.getTr().get(i).getSpeachString() + " ";
+            speachText = speachText + dictionary.getTr().get(i).getSpeachString() + ", ";
         }
 
         outputText = outputText.substring(0, outputText.length() - 5);
@@ -362,8 +370,8 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         Log.d("Okuma öncesi Cıktı : ", speachText);
         // Add translatedText to intent in order to send text to speech
         // input
-        setShareIntent(outputText);
-        setShareIntent(outputText.substring(0, outputText.indexOf(" ") -1));
+        setShareIntent(speachText.substring(0, speachText.length()-2));
+        //setShareIntent(outputText.substring(0, outputText.indexOf(" ")).replaceAll("<br>"," "));
         Locale selectedLocale = new Locale(hmLanguages.get(item));
         speakOut(speachText, selectedLocale); // Text to Speech
     }
@@ -389,7 +397,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
             if (myTranslateHistoryPrefs.getHistories("Translate_History", DictionaryTestApp.this) == null){
                 AppUtils.showToast(DictionaryTestApp.this, "No history to show");
             } else{
-                AppUtils.gotoActivity(DictionaryTestApp.this, SearchHistoryActivity.class, null, false);
+                AppUtils.gotoActivityWithResult(DictionaryTestApp.this, SearchHistoryActivity.class, null, 2);
             }
 
             return true;
@@ -454,9 +462,10 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
             }
 
             case 2:
-                String historyItem = (String) getIntent().getSerializableExtra(
-                        "SearchedHistoryItem");
-                etInput.setText(historyItem);
+                if (resultCode == RESULT_OK && null != data) {
+                    String historyItem = data.getExtras().getString("SearchedHistoryItem");
+                    etInput.setText(historyItem);
+                }
         }
     }
 
