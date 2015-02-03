@@ -40,7 +40,7 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:textSize="18dp"
-            android:text="You have no history log right now."/>
+            android:text="@string/no_history"/>
 
         <View
             android:layout_width="match_parent"

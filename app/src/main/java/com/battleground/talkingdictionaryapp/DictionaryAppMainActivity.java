@@ -1,9 +1,8 @@
 
-package com.alimertozdemir.talkingdictionaryapp;
+package com.battleground.talkingdictionaryapp;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -27,43 +26,42 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alimertozdemir.talkingdictionaryapp.model.TranslateResults;
-import com.alimertozdemir.talkingdictionaryapp.model.UIDictionary;
-import com.alimertozdemir.talkingdictionaryapp.utils.AppUtils;
-import com.alimertozdemir.talkingdictionaryapp.utils.FloatingActionButton;
-import com.alimertozdemir.talkingdictionaryapp.utils.SharedPreference;
+import com.battleground.talkingdictionaryapp.model.TranslateResults;
+import com.battleground.talkingdictionaryapp.model.UIDictionary;
+import com.battleground.talkingdictionaryapp.utils.AppUtils;
+import com.battleground.talkingdictionaryapp.utils.FloatingActionButton;
+import com.battleground.talkingdictionaryapp.utils.SharedPreference;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class DictionaryTestApp extends ActionBarActivity implements OnClickListener, OnItemSelectedListener,
+public class DictionaryAppMainActivity extends ActionBarActivity implements OnClickListener, OnItemSelectedListener,
         View.OnTouchListener,
         HttpRequestCallback, TextToSpeech.OnInitListener {
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
     Map<String, String> hmLanguages;
-    // ArrayList<String> supportedLangs = null;
     String translateURL = "https://translate.yandex.net/api/v1.5/tr.json/translate"; // ?key=trnsl.1.1.20140304T071909Z.b9e89fae4d489cf1.6486d3ae866bfe9c6a389b84cc61e5d860cf0112&lang=en-tr&text=dog";
     String detectURL = "https://translate.yandex.net/api/v1.5/tr.json/detect";
-    // String singleWordDetectURL = "http://ws.detectlanguage.com/0.2/detect";
     String translateAPIKey = "trnsl.1.1.20140304T071909Z.b9e89fae4d489cf1.6486d3ae866bfe9c6a389b84cc61e5d860cf0112";
-    // String detectLangAPIKey = "369a293153fc232f6b07fb01e1443e1c";
-    // boolean isYandexAPIDetect = true;
     String dictionaryURL = "https://dictionary.yandex.net/api/v1/dicservice.json/lookup";
     String dictionaryAPIKey = "dict.1.1.20141110T212048Z.1975cd38b6ef587c.5161dfd7fcf12b17b5e75c5c63ca90aa535b4947";
     String translatedText = "";
@@ -85,38 +83,21 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
     SharedPreference myTranslateHistoryPrefs = new SharedPreference();
     SharedPreference readTranslatedTextPref = new SharedPreference();
     ShareActionProvider myShareActionProvider = null;
-    SettingsActivity settings = new SettingsActivity();
-
-    // private String jsonString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dictionary);
 
+        Tracker tracker = ((AnalyticsApplication)this.getApplication()).getTracker(AnalyticsApplication.TrackerName.APP_TRACKER);
+        tracker.enableAdvertisingIdCollection(true);
+        tracker.setScreenName("DictionaryAppMainActivity");
+        tracker.send(new HitBuilders.AppViewBuilder().build());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        //toolbar.setLogo(R.drawable.ic_launcher);
-        //setSupportActionBar(toolbar);
 
-        Drawable logo = getResources().getDrawable(R.drawable.ic_launcher);
-        toolbar.setLogo(logo);
-
-        for (int i = 0; i < toolbar.getChildCount(); i++) {
-            View child = toolbar.getChildAt(i);
-            if (child != null)
-                if (child.getClass() == ImageView.class) {
-                    ImageView iv2 = (ImageView) child;
-                    if ( iv2.getDrawable() == logo ) {
-                        iv2.setAdjustViewBounds(true);
-                        int padding = (int) (6 * getResources().getDisplayMetrics().density);
-                        iv2.setPadding(-10, padding, padding, padding);
-
-                    }
-                }
-        }
-
-        setSupportActionBar(toolbar);
+        setSupportActionBar(AppUtils.getToolbarWithResizedLogo(this, toolbar));
 
         tts = new TextToSpeech(this, this);
 
@@ -125,7 +106,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         tvOutput.setMovementMethod(new ScrollingMovementMethod());
         btnSend = (Button) findViewById(R.id.btnTranslate);
         btnSend.setOnClickListener(this);
-        httpRequest = new HttpRequest(DictionaryTestApp.this);
+        httpRequest = new HttpRequest(DictionaryAppMainActivity.this);
 
         llMainLayout = (LinearLayout) findViewById(R.id.llMainLayout);
         llMainLayout.setOnClickListener(this);
@@ -170,15 +151,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
                 });
 
         List<String> languages = new ArrayList<String>();
-        languages.add("Auto Detect");
-        languages.add("Russian");
-        languages.add("Polish");
-        languages.add("English");
-        languages.add("German");
-        languages.add("French");
-        languages.add("Spanish");
-        languages.add("Italy");
-        languages.add("Turkish");
+        languages.addAll(Arrays.asList(getResources().getStringArray(R.array.languages)));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout,
                 languages);
@@ -186,19 +159,19 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFrom.setAdapter(dataAdapter);
         spinnerTo.setAdapter(dataAdapter);
-        spinnerTo.setSelection(3);
+        spinnerTo.setSelection(1);
         dataAdapter.notifyDataSetChanged();
 
         hmLanguages = new HashMap<String, String>();
-        hmLanguages.put("Auto Detect", "null");
-        hmLanguages.put("English", "en");
-        hmLanguages.put("Russian", "ru");
-        hmLanguages.put("Polish", "pl");
-        hmLanguages.put("German", "de");
-        hmLanguages.put("French", "fr");
-        hmLanguages.put("Spanish", "es");
-        hmLanguages.put("Italy", "it");
-        hmLanguages.put("Turkish", "tr");
+        hmLanguages.put(languages.get(0), "null");
+        hmLanguages.put(languages.get(1), "en");
+        hmLanguages.put(languages.get(2), "ru");
+        hmLanguages.put(languages.get(3), "pl");
+        hmLanguages.put(languages.get(4), "de");
+        hmLanguages.put(languages.get(5), "fr");
+        hmLanguages.put(languages.get(6), "es");
+        hmLanguages.put(languages.get(7), "it");
+        hmLanguages.put(languages.get(8), "tr");
 
         spinnerFrom.setOnItemSelectedListener(this);
         spinnerTo.setOnItemSelectedListener(this);
@@ -224,15 +197,14 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnTranslate:
-                AppUtils.hideKeyboard(DictionaryTestApp.this);
+                AppUtils.hideKeyboard(DictionaryAppMainActivity.this);
                 if (!etInput.getText().toString().trim().equals("")) {
                     // Add searchItem to SharedPrefs
-                    mySearchHistoryPrefs.addHistory("Search_History", DictionaryTestApp.this,
+                    mySearchHistoryPrefs.addHistory("Search_History", DictionaryAppMainActivity.this,
                             etInput.getText().toString());
                     if (hmLanguages.get(spinnerFrom.getSelectedItem()).equals("null")
                             && !etInput.getText().toString().contains(" ")) {
-                        AppUtils.showToast(DictionaryTestApp.this,
-                                "Auto Detect is not available.\nSelect input language.");
+                        AppUtils.showToast(DictionaryAppMainActivity.this, getString(R.string.auto_detect_check));
                     } else if (hmLanguages.get(spinnerFrom.getSelectedItem()).equals("null")
                             && etInput.getText().toString().trim().contains(" ")) {
                         detectLanguageRequest(etInput.getText().toString());
@@ -245,13 +217,12 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
                                 hmLanguages.get(spinnerTo.getSelectedItem()));
                     }
                 } else {
-                    AppUtils.showToast(DictionaryTestApp.this,
-                            "Please type search item inside the box");
+                    AppUtils.showToast(DictionaryAppMainActivity.this, getString(R.string.type_inside));
                     etInput.requestFocus();
                 }
                 break;
             case R.id.llMainLayout:
-                AppUtils.hideKeyboard(DictionaryTestApp.this);
+                AppUtils.hideKeyboard(DictionaryAppMainActivity.this);
                 break;
             case R.id.ibMicWhite:
                 ibMicWhite.setVisibility(View.GONE);
@@ -270,7 +241,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (view.equals(spinnerFrom) || view.equals(spinnerTo)) {
             if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                AppUtils.hideKeyboard(DictionaryTestApp.this);
+                AppUtils.hideKeyboard(DictionaryAppMainActivity.this);
             }
         } else if (view.equals(fabDictionaryButton)) {
             if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
@@ -286,8 +257,8 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         String TAG = "DetectRequest";
         params.put("key", translateAPIKey);
         params.put("text", text);
-        if (!AppUtils.checkNetworkConnection(DictionaryTestApp.this)) {
-            AppUtils.showToast(DictionaryTestApp.this, "Check your internet connection");
+        if (!AppUtils.checkNetworkConnection(DictionaryAppMainActivity.this)) {
+            AppUtils.showToast(DictionaryAppMainActivity.this, getString(R.string.check_network));
         } else {
             httpRequest.makeHttpPostWithVolley(detectURL, params, TAG, false);
         }
@@ -299,8 +270,8 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         params.put("lang", langCodeFrom + "-" + langCodeTo);
         Log.d("Translate Request : FROM > TO >>>", langCodeFrom + ">" + langCodeTo);
         params.put("text", etInput.getText().toString());
-        if (!AppUtils.checkNetworkConnection(DictionaryTestApp.this)) {
-            AppUtils.showToast(DictionaryTestApp.this, "Check your internet connection");
+        if (!AppUtils.checkNetworkConnection(DictionaryAppMainActivity.this)) {
+            AppUtils.showToast(DictionaryAppMainActivity.this, getString(R.string.check_network));
         } else {
             httpRequest.makeHttpPostWithVolley(translateURL, params, TAG, true);
         }
@@ -312,8 +283,8 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         params.put("lang", langCodeFrom + "-" + langCodeTo);
         Log.d("Translate Request : FROM > TO >>>", langCodeFrom + ">" + langCodeTo);
         params.put("text", etInput.getText().toString());
-        if (!AppUtils.checkNetworkConnection(DictionaryTestApp.this)) {
-            AppUtils.showToast(DictionaryTestApp.this, "Check your internet connection");
+        if (!AppUtils.checkNetworkConnection(DictionaryAppMainActivity.this)) {
+            AppUtils.showToast(DictionaryAppMainActivity.this, getString(R.string.check_network));
         } else {
             httpRequest.makeHttpPostWithVolley(dictionaryURL, params, TAG, true);
         }
@@ -327,7 +298,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
             translate = gson.fromJson(jsonResponse, TranslateResults.class);
             tvOutput.setText(translate.getText().get(0));
             // Add translatedText to Shared Preferences
-            myTranslateHistoryPrefs.addHistory("Translate_History", DictionaryTestApp.this,
+            myTranslateHistoryPrefs.addHistory("Translate_History", DictionaryAppMainActivity.this,
                     translate.getText().get(0));
             translatedText = translate.getText().get(0);
             // Add translatedText to intent in order to send text to speech
@@ -345,7 +316,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
                 Log.d("DictionaryRequestCikti", defObject.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
-                AppUtils.showToast(DictionaryTestApp.this, "Sorry " + etInput.getText().toString() + " is not found.");
+                AppUtils.showToast(DictionaryAppMainActivity.this, getString(R.string.text_not_found, etInput.getText().toString()));
                 tvOutput.setText("");
             }
         } else if (operName.equals("DetectRequest")) {
@@ -365,12 +336,12 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         }
 
         outputText = outputText.substring(0, outputText.length() - 5);
-        tvOutput.setText(Html.fromHtml("<b>Translation :</b>" + "<br>" + outputText));
+        tvOutput.setText(Html.fromHtml("<b>" + getString(R.string.translation) +" :</b>" + "<br>" + outputText));
 
         Log.d("Okuma öncesi Cıktı : ", speachText);
         // Add translatedText to intent in order to send text to speech
         // input
-        setShareIntent(speachText.substring(0, speachText.length()-2));
+        setShareIntent(speachText.substring(0, speachText.length() - 2));
         //setShareIntent(outputText.substring(0, outputText.indexOf(" ")).replaceAll("<br>"," "));
         Locale selectedLocale = new Locale(hmLanguages.get(item));
         speakOut(speachText, selectedLocale); // Text to Speech
@@ -383,7 +354,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         MenuItem item = menu.findItem(R.id.menu_item_share);
         myShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
         if (!"".equals(translatedText))
-        setShareIntent(translatedText);
+            setShareIntent(translatedText);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -394,16 +365,16 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.search_history) {
-            if (myTranslateHistoryPrefs.getHistories("Translate_History", DictionaryTestApp.this) == null){
-                AppUtils.showToast(DictionaryTestApp.this, "No history to show");
-            } else{
-                AppUtils.gotoActivityWithResult(DictionaryTestApp.this, SearchHistoryActivity.class, null, 2);
+            if (myTranslateHistoryPrefs.getHistories("Translate_History", DictionaryAppMainActivity.this) == null) {
+                AppUtils.showToast(DictionaryAppMainActivity.this, getString(R.string.no_history));
+            } else {
+                AppUtils.gotoActivityWithResult(DictionaryAppMainActivity.this, SearchHistoryActivity.class, null, 2);
             }
 
             return true;
         }
         if (id == R.id.settings) {
-            AppUtils.gotoActivity(DictionaryTestApp.this, SettingsActivity.class, null, false);
+            AppUtils.gotoActivity(DictionaryAppMainActivity.this, SettingsActivity.class, null, false);
             return true;
         }
 
@@ -418,7 +389,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
         Log.d("TRANSLATED TEXT > ", translatedText);
         intent.putExtra(Intent.EXTRA_TEXT, translatedText
                 + "\n"
-                + (Html.fromHtml("<b>" + "Translated via Talking Dictionary." + "</b>")));
+                + (Html.fromHtml("<b>" + getString(R.string.share_intent_text) +"" + "</b>")));
 
         myShareActionProvider.setShareIntent(intent);
 
@@ -427,7 +398,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         item = adapterView.getSelectedItem().toString();
-        AppUtils.hideKeyboard(DictionaryTestApp.this);
+        AppUtils.hideKeyboard(DictionaryAppMainActivity.this);
         Log.d("ITEM>>> ", adapterView.getSelectedItem().toString());
     }
 
@@ -454,8 +425,7 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     etInput.setText(result.get(0));
                     if (!result.get(0).trim().contains(" ")) {
-                        AppUtils.showToast(DictionaryTestApp.this,
-                                "Auto Detect is not available.\nSelect input language.");
+                        AppUtils.showToast(DictionaryAppMainActivity.this, getString(R.string.auto_detect_check));
                     }
                 }
                 break;
@@ -501,6 +471,20 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc
+        GoogleAnalytics.getInstance(this.getApplicationContext()).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(this.getApplicationContext()).reportActivityStop(this);
+    }
+
+    @Override
     public void onDestroy() {
         // Don't forget to shutdown tts!
         if (tts != null) {
@@ -534,11 +518,11 @@ public class DictionaryTestApp extends ActionBarActivity implements OnClickListe
     private void speakOut(String speachText, Locale selectedLocale) {
 
         if (!"".equals(speachText)) {
-            if (readTranslatedTextPref.getSetting("isButtonChecked", DictionaryTestApp.this) == null){
-                readTranslatedTextPref.saveSetting("isButtonChecked", DictionaryTestApp.this, "true");
+            if (readTranslatedTextPref.getSetting("isButtonChecked", DictionaryAppMainActivity.this) == null) {
+                readTranslatedTextPref.saveSetting("isButtonChecked", DictionaryAppMainActivity.this, "true");
             }
             //String text = tvOutput.getText().toString();
-            if ("true".equals(readTranslatedTextPref.getSetting("isButtonChecked", DictionaryTestApp.this))) {
+            if ("true".equals(readTranslatedTextPref.getSetting("isButtonChecked", DictionaryAppMainActivity.this))) {
                 tts.setLanguage(selectedLocale);
                 tts.speak(speachText, TextToSpeech.QUEUE_FLUSH, null);
             }

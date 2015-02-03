@@ -45,7 +45,7 @@
                     android:textSize="18dp"
                     android:paddingBottom="50dp"
                     android:gravity="center"
-                    android:text="Read translated text"
+                    android:text="@string/read_text"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"/>
 

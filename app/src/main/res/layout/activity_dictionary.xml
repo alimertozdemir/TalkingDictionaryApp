@@ -54,7 +54,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alpha="10"
-                        android:hint="Touch the microphone to speak"
+                        android:hint="@string/touch_to_speak"
                         android:maxLines="4"
                         android:minHeight="140dp"
                         android:scrollbars="vertical"
@@ -103,7 +103,7 @@
                             android:layout_marginLeft="52dp"
                             android:layout_marginRight="52dp"
                             android:background="@drawable/button_selector"
-                            android:text="TRANSLATE"
+                            android:text="@string/translate"
                             android:textColor="@android:color/white"
                             android:textSize="18dp"
                             android:textStyle="bold"
@@ -111,7 +111,7 @@
 
                     </LinearLayout>
 
-                    <RelativeLayout
+                   <RelativeLayout
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent">
 

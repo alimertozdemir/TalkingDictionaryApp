@@ -1,12 +1,18 @@
-package com.alimertozdemir.talkingdictionaryapp.utils;
+package com.battleground.talkingdictionaryapp.utils;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.battleground.talkingdictionaryapp.R;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -76,6 +82,26 @@ public class AppUtils {
             activity.finish();
         }
 
+    }
+
+    public static Toolbar getToolbarWithResizedLogo(Activity activity, Toolbar toolbar) {
+        Drawable logo = activity.getResources().getDrawable(R.drawable.ic_launcher);
+        toolbar.setLogo(logo);
+
+        for (int i = 0; i < toolbar.getChildCount(); i++) {
+            View child = toolbar.getChildAt(i);
+            if (child != null)
+                if (child.getClass() == ImageView.class) {
+                    ImageView iv2 = (ImageView) child;
+                    if (iv2.getDrawable() == logo) {
+                        iv2.setAdjustViewBounds(true);
+                        int padding = (int) (6 * activity.getResources().getDisplayMetrics().density);
+                        iv2.setPadding(-6, padding, padding, padding);
+                    }
+                }
+        }
+
+        return toolbar;
     }
 
 }

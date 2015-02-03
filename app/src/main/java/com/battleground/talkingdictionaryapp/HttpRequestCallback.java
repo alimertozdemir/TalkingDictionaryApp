@@ -1,4 +1,4 @@
-package com.alimertozdemir.talkingdictionaryapp;
+package com.battleground.talkingdictionaryapp;
 
 /**
  * Created by AliMert on 8.9.2014.

@@ -1,4 +1,4 @@
-package com.alimertozdemir.talkingdictionaryapp.model;
+package com.battleground.talkingdictionaryapp.model;
 
 import java.util.ArrayList;
 import java.util.List;

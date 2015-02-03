@@ -1,5 +1,5 @@
 
-package com.alimertozdemir.talkingdictionaryapp.utils;
+package com.battleground.talkingdictionaryapp.utils;
 
 /**
  * Created by AliMert on 10.11.2014.

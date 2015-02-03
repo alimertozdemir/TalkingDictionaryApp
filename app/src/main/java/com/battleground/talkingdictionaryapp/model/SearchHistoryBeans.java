@@ -1,5 +1,5 @@
 
-package com.alimertozdemir.talkingdictionaryapp.model;
+package com.battleground.talkingdictionaryapp.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

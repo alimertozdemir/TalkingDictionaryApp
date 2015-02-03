@@ -1,5 +1,5 @@
 
-package com.alimertozdemir.talkingdictionaryapp;
+package com.battleground.talkingdictionaryapp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.alimertozdemir.talkingdictionaryapp.adapter.SearchHistoryAdapter;
-import com.alimertozdemir.talkingdictionaryapp.utils.SharedPreference;
+import com.battleground.talkingdictionaryapp.adapter.SearchHistoryAdapter;
+import com.battleground.talkingdictionaryapp.utils.SharedPreference;
 
 import java.io.Serializable;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.alimertozdemir.talkingdictionaryapp;
+package com.battleground.talkingdictionaryapp;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import com.alimertozdemir.talkingdictionaryapp.utils.SharedPreference;
+import com.battleground.talkingdictionaryapp.utils.SharedPreference;
 
 
 public class SettingsActivity extends ActionBarActivity {
@@ -34,8 +34,8 @@ public class SettingsActivity extends ActionBarActivity {
 
 
         Switch readSwitch = (Switch) findViewById(R.id.switch1);
-        readSwitch.setTextOn("YES");
-        readSwitch.setTextOff("NO");
+        readSwitch.setTextOn(getString(R.string.yes));
+        readSwitch.setTextOff(getString(R.string.no));
 
         if (readTranslatedTextPref.getSetting("isButtonChecked", SettingsActivity.this) == null){
             readSwitch.setChecked(true);

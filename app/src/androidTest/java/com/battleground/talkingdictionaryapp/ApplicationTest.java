@@ -1,4 +1,4 @@
-package com.alimertozdemir.talkingdictionaryapp;
+package com.battleground.talkingdictionaryapp;
 
         import android.app.Application;
         import android.test.ApplicationTestCase;

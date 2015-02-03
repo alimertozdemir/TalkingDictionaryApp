@@ -1,4 +1,4 @@
-package com.alimertozdemir.talkingdictionaryapp;
+package com.battleground.talkingdictionaryapp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.alimertozdemir.talkingdictionaryapp.utils.AppUtils;
+import com.battleground.talkingdictionaryapp.utils.AppUtils;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;

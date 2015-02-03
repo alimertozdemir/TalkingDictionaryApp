@@ -15,7 +15,7 @@
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:title="Share"/>
+        android:title="@string/share"/>
 
     <item
         android:id="@+id/settings"
